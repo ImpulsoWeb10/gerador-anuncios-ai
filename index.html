@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Anúncios AI</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #0f172a;
+    color: #fff;
+    padding: 20px;
+}
+input, textarea {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+}
+button {
+    padding: 10px;
+    background: #22c55e;
+    border: none;
+    cursor: pointer;
+}
+#resultado {
+    white-space: pre-wrap;
+    margin-top: 20px;
+    background: #1e293b;
+    padding: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🚀 Gerador de Anúncios</h2>
+
+<input id="produto" placeholder="Nome do produto">
+<textarea id="descricao" placeholder="Descrição curta"></textarea>
+<input id="cnpj" placeholder="Início do CNPJ">
+
+<button onclick="gerar()">Gerar</button>
+
+<div id="resultado"></div>
+
+<script>
+async function gerar() {
+    const produto = document.getElementById("produto").value;
+    const descricao = document.getElementById("descricao").value;
+    const cnpj = document.getElementById("cnpj").value;
+
+    const res = await fetch("https://SEU_BACKEND.vercel.app/api/gerar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ produto, descricao, cnpj })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("resultado").innerText =
+        data.text || "Erro ao gerar";
+}
+</script>
+
+</body>
+</html>
