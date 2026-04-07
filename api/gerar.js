@@ -1,10 +1,11 @@
 export default async function handler(req, res) {
 
+  // 🔓 CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // 🔥 MUITO IMPORTANTE (preflight)
+  // 🔥 Preflight (IMPORTANTE)
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
@@ -24,7 +25,7 @@ Descrição: ${descricao}
 CNPJ: ${cnpj}
 
 Gere:
-- Título
+- Título otimizado
 - Descrição curta
 - Descrição completa
 - SKU
@@ -41,19 +42,37 @@ Gere:
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
+          contents: [
+            {
+              parts: [{ text: prompt }]
+            }
+          ]
         })
       }
     );
 
     const data = await response.json();
 
-    const text =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text || "Erro ao gerar";
+    // 🔍 DEBUG (MOSTRA ERRO REAL)
+    console.log("RESPOSTA DA API:", JSON.stringify(data, null, 2));
 
-    return res.status(200).json({ text });
+    if (!data.candidates) {
+      return res.status(200).json({
+        text: "❌ Erro da API:\n" + JSON.stringify(data, null, 2)
+      });
+    }
+
+    const text = data.candidates[0]?.content?.parts?.[0]?.text;
+
+    return res.status(200).json({
+      text: text || "⚠️ Resposta vazia da IA"
+    });
 
   } catch (error) {
-    return res.status(500).json({ error: "Erro no servidor" });
+    console.error("ERRO:", error);
+
+    return res.status(500).json({
+      text: "❌ Erro no servidor"
+    });
   }
 }
