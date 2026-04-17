@@ -1,78 +1,739 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Gerador de Anúncios</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Marketing — Materiais de Construção</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-body { font-family: Arial; padding:20px; background:#f5f5f5;}
-input, textarea, select { width:100%; margin:5px 0; padding:8px;}
-button { padding:10px; background:#007bff; color:white; border:none; cursor:pointer;}
-.box { background:white; padding:15px; margin-top:15px;}
+:root {
+  --green: #1D9E75;
+  --green-dark: #0F6E56;
+  --green-light: #E1F5EE;
+  --amber: #EF9F27;
+  --surface: #F7F6F2;
+  --card: #FFFFFF;
+  --border: rgba(0,0,0,0.08);
+  --text: #1A1A18;
+  --muted: #6B6B66;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  background: var(--text);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.logo span { color: var(--green); }
+.badge-header {
+  font-size: 11px;
+  background: var(--green);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+
+/* LAYOUT */
+.container { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+.hero { text-align: center; margin-bottom: 40px; }
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.hero h1 em { color: var(--green); font-style: normal; }
+.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+/* FORM CARD */
+.form-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.form-section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+input, select, textarea {
+  padding: 10px 13px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color .15s, background .15s;
+  outline: none;
+  width: 100%;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--green);
+  background: #fff;
+}
+textarea { resize: vertical; min-height: 72px; }
+
+/* CTA BUTTON */
+.btn-main {
+  width: 100%;
+  padding: 14px;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--green);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background .2s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-main:hover { background: var(--green-dark); }
+.btn-main:active { transform: scale(0.99); }
+.btn-main:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.err { color: #D85A30; font-size: 13px; margin-top: 8px; text-align: center; }
+
+/* RESULTS */
+#resultado { display: none; margin-top: 32px; }
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.result-header h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.result-header .dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px;
+}
+.tab {
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  transition: all .15s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text); background: var(--surface); }
+.tab.active { background: var(--green); color: #fff; }
+
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+/* OUTPUT CARDS */
+.out-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.out-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.out-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+.copy-btn {
+  font-size: 12px;
+  padding: 4px 11px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .15s;
+}
+.copy-btn:hover { background: var(--green-light); color: var(--green-dark); border-color: var(--green); }
+.copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+.out-txt {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+/* BADGES */
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--green-light);
+  color: var(--green-dark);
+  font-weight: 500;
+}
+
+/* STATS GRID */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.stat {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+}
+.stat-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
+.stat-value { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; color: var(--text); }
+
+/* LAYOUT PREVIEW */
+.layout-preview {
+  background: var(--surface);
+  border: 1.5px dashed rgba(0,0,0,0.12);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-top: 8px;
+}
+.lp-zone {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+.lp-zone.title-zone { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: var(--text); }
+.lp-zone.img-zone { background: #f0f0ec; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+.lp-zone.cta-zone { background: var(--green); color: #fff; font-weight: 600; }
+
+/* LANDING PAGE iframe */
+.lp-iframe {
+  width: 100%;
+  border: none;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  height: 560px;
+  margin-top: 10px;
+}
+
+/* DOWNLOAD BUTTON */
+.btn-dl {
+  width: 100%;
+  padding: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1.5px solid var(--green);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all .15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-dl:hover { background: var(--green); color: #fff; }
+
+/* WA BUTTON */
+.btn-wa {
+  width: 100%;
+  padding: 12px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius);
+  background: #25D366;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity .15s;
+}
+.btn-wa:hover { opacity: .88; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  header { padding: 14px 16px; }
+  .form-card { padding: 18px 16px; }
+  .container { padding: 24px 14px 60px; }
+}
 </style>
 </head>
 <body>
 
-<h2>Gerador de Anúncios</h2>
+<header>
+  <div class="logo">Construção<span>+</span>Marketing</div>
+  <span class="badge-header">IA integrada</span>
+</header>
 
-<input id="nome" placeholder="Nome do produto">
-<select id="tipo">
-  <option value="tinta">Tinta</option>
-  <option value="massa">Massa</option>
-</select>
+<div class="container">
 
-<input id="unidade" placeholder="Litros ou Kg">
-<input id="rendimento" placeholder="Rendimento (ex: até 250m²)">
-<textarea id="beneficios" placeholder="Benefícios"></textarea>
-<textarea id="uso" placeholder="Como usar"></textarea>
-<input id="imagem" placeholder="URL da imagem">
+  <div class="hero">
+    <h1>Seu produto. <em>Vendas automáticas.</em></h1>
+    <p>Preencha os dados e gere em segundos anúncios para WhatsApp, Instagram, landing page e muito mais.</p>
+  </div>
 
-<button onclick="gerar()">GERAR</button>
+  <div class="form-card">
+    <div class="form-section-title">Produto</div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Nome ou descrição do produto *</label>
+      <input type="text" id="produto" placeholder="Ex: Tinta acrílica premium branco neve 18L" />
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="field">
+        <label>URL da imagem (opcional)</label>
+        <input type="text" id="img_url" placeholder="https://..." />
+      </div>
+      <div class="field">
+        <label>Preço (opcional)</label>
+        <input type="text" id="preco" placeholder="R$ 189,90" />
+      </div>
+    </div>
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="field">
+        <label>WhatsApp (com código do país)</label>
+        <input type="text" id="whats_num" placeholder="5511999999999" />
+      </div>
+      <div class="field">
+        <label>Tom do anúncio</label>
+        <select id="tom">
+          <option value="urgência e promoção">Urgência / promoção</option>
+          <option value="premium e qualidade">Premium / qualidade</option>
+          <option value="simples e direto">Simples e direto</option>
+          <option value="técnico e profissional">Técnico / profissional</option>
+        </select>
+      </div>
+    </div>
 
-<div class="box">
-<h3>📱 WhatsApp / Instagram</h3>
-<textarea id="whats"></textarea>
+    <div class="form-section-title" style="margin-top:20px">Extras (opcional — preenchimento automático se vazio)</div>
+    <div class="grid3">
+      <div class="field">
+        <label>Categoria</label>
+        <input type="text" id="categoria" placeholder="Tinta, massa, selador…" />
+      </div>
+      <div class="field">
+        <label>Volume / Peso</label>
+        <input type="text" id="volume" placeholder="18L, 25kg…" />
+      </div>
+      <div class="field">
+        <label>Rendimento</label>
+        <input type="text" id="rendimento" placeholder="Até 400 m²" />
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>Diferenciais do produto</label>
+      <textarea id="diferenciais" placeholder="Secagem rápida, lavável, alta cobertura, sem cheiro…"></textarea>
+    </div>
+
+    <button class="btn-main" id="btn" onclick="gerar()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Gerar sistema completo de marketing
+    </button>
+    <div id="erro" class="err"></div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="resultado">
+    <div class="result-header">
+      <div class="dot"></div>
+      <h2>Conteúdo gerado</h2>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" onclick="switchTab(0)">📊 Pesquisa</button>
+      <button class="tab" onclick="switchTab(1)">💬 WhatsApp</button>
+      <button class="tab" onclick="switchTab(2)">📸 Instagram</button>
+      <button class="tab" onclick="switchTab(3)">🖼️ Criativo</button>
+      <button class="tab" onclick="switchTab(4)">✍️ Copy longa</button>
+      <button class="tab" onclick="switchTab(5)">🌐 Landing page</button>
+    </div>
+
+    <div id="panel-0" class="panel active"></div>
+    <div id="panel-1" class="panel"></div>
+    <div id="panel-2" class="panel"></div>
+    <div id="panel-3" class="panel"></div>
+    <div id="panel-4" class="panel"></div>
+    <div id="panel-5" class="panel"></div>
+  </div>
+
 </div>
 
-<div class="box">
-<h3>🌐 Landing Page</h3>
-<textarea id="html"></textarea>
-</div>
+<footer>Feito com IA · Construção+Marketing · Nenhum dado é armazenado</footer>
 
 <script>
-function gerar() {
-let nome = document.getElementById('nome').value;
-let tipo = document.getElementById('tipo').value;
-let unidade = document.getElementById('unidade').value;
-let rendimento = document.getElementById('rendimento').value;
-let beneficios = document.getElementById('beneficios').value;
-let uso = document.getElementById('uso').value;
-let imagem = document.getElementById('imagem').value;
+let _lpHtml = '';
 
-let texto = `🔥 ${nome}\n\n✅ Alta qualidade\n📏 ${unidade}\n📊 ${rendimento}\n\n💡 Benefícios:\n${beneficios}\n\n🛠️ Como usar:\n${uso}\n\n👉 Chama no WhatsApp agora!`;
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t, j) => t.classList.toggle('active', j === i));
+  document.querySelectorAll('.panel').forEach((p, j) => p.classList.toggle('active', j === i));
+}
 
-document.getElementById('whats').value = texto;
+async function gerar() {
+  const produto = document.getElementById('produto').value.trim();
+  if (!produto) { document.getElementById('erro').textContent = 'Informe o nome ou descrição do produto.'; return; }
+  document.getElementById('erro').textContent = '';
 
-let html = `
-<!DOCTYPE html>
-<html>
+  const btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Gerando sistema completo...';
+  document.getElementById('resultado').style.display = 'none';
+
+  const img = document.getElementById('img_url').value.trim();
+  const whats = document.getElementById('whats_num').value.trim() || '5511999999999';
+  const preco = document.getElementById('preco').value.trim();
+  const tom = document.getElementById('tom').value;
+  const categoria = document.getElementById('categoria').value.trim();
+  const volume = document.getElementById('volume').value.trim();
+  const rendimento = document.getElementById('rendimento').value.trim();
+  const diferenciais = document.getElementById('diferenciais').value.trim();
+
+  const prompt = `Você é especialista em marketing digital, copywriting e SEO para e-commerce de materiais de construção no Brasil.
+Receba os dados abaixo e gere um sistema completo de marketing. Complete automaticamente qualquer dado faltante com conhecimento de mercado.
+
+PRODUTO: ${produto}
+CATEGORIA: ${categoria || 'identificar automaticamente'}
+VOLUME: ${volume || 'identificar automaticamente'}
+RENDIMENTO: ${rendimento || 'estimar realisticamente'}
+DIFERENCIAIS: ${diferenciais || 'listar os mais relevantes para este tipo de produto'}
+IMAGEM URL: ${img || '(não fornecida)'}
+PREÇO: ${preco || '(não informado)'}
+TOM: ${tom}
+WHATSAPP: ${whats}
+
+Responda APENAS em JSON válido, sem markdown, sem texto fora do JSON:
+{
+  "pesquisa": {
+    "categoria": "string",
+    "volume": "string",
+    "rendimento": "string",
+    "superficie": "string",
+    "beneficios": ["string","string","string","string","string"],
+    "diferenciais": ["string","string","string"]
+  },
+  "whatsapp": "texto completo para whatsapp com emojis e cta (max 300 chars)",
+  "instagram": "texto completo para instagram com emojis, quebra de linhas e cta forte",
+  "imagem": {
+    "titulo": "até 6 palavras fortes e impactantes",
+    "subtitulo": "frase de apoio persuasiva",
+    "destaque": "ex: Rende até 400 m²",
+    "cta": "texto curto do botão",
+    "cores": "sugestão de paleta de cores ex: laranja e branco",
+    "estilo": "promoção/premium/econômico",
+    "layout": "descrição detalhada do layout visual para o designer"
+  },
+  "copy_longa": "copy completa de vendas com intro, problema, solução, benefícios, prova social, urgência e cta",
+  "landing": {
+    "title_seo": "title tag seo otimizado",
+    "meta": "meta description otimizada",
+    "h1": "h1 principal otimizado para seo",
+    "intro": "parágrafo introdutório persuasivo",
+    "beneficios": ["string","string","string","string","string"],
+    "como_usar": ["passo 1 completo","passo 2 completo","passo 3 completo"],
+    "tecnico": "ficha técnica completa: rendimento, diluição, aplicação, secagem",
+    "cta_texto": "texto do botão whatsapp"
+  }
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2800,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.map(b => b.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const d = JSON.parse(clean);
+    renderAll(d, img, whats);
+    document.getElementById('resultado').style.display = 'block';
+    document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    document.getElementById('erro').textContent = 'Erro ao gerar conteúdo. Verifique sua conexão e tente novamente.';
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Gerar sistema completo de marketing';
+  }
+}
+
+function card(label, text) {
+  const id = 'c' + Math.random().toString(36).slice(2);
+  return `<div class="out-card">
+    <div class="out-head">
+      <span class="out-lbl">${label}</span>
+      <button class="copy-btn" id="${id}" onclick="cp('${id}', \`${esc(text)}\`)">Copiar</button>
+    </div>
+    <div class="out-txt">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+  </div>`;
+}
+
+function renderAll(d, img, whats) {
+  const p = d.pesquisa;
+
+  // Panel 0 — Pesquisa
+  document.getElementById('panel-0').innerHTML = `
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Categoria</div><div class="stat-value">${p.categoria}</div></div>
+      <div class="stat"><div class="stat-label">Volume</div><div class="stat-value">${p.volume}</div></div>
+      <div class="stat"><div class="stat-label">Rendimento</div><div class="stat-value">${p.rendimento}</div></div>
+      <div class="stat"><div class="stat-label">Superfície</div><div class="stat-value" style="font-size:13px">${p.superficie}</div></div>
+    </div>
+    <div class="out-card">
+      <div class="out-head"><span class="out-lbl">Benefícios identificados</span></div>
+      <div class="out-txt">${p.beneficios.map(b => '• ' + b).join('\n')}</div>
+    </div>
+    <div class="out-card">
+      <div class="out-head"><span class="out-lbl">Diferenciais de mercado</span></div>
+      <div class="tags">${p.diferenciais.map(b => `<span class="tag">${b}</span>`).join('')}</div>
+    </div>`;
+
+  // Panel 1 — WhatsApp
+  const waUrl = 'https://wa.me/' + whats + '?text=' + encodeURIComponent(d.whatsapp);
+  document.getElementById('panel-1').innerHTML = card('Anúncio WhatsApp', d.whatsapp) +
+    `<button class="btn-wa" onclick="window.open('${waUrl}','_blank')">Abrir no WhatsApp Web</button>`;
+
+  // Panel 2 — Instagram
+  document.getElementById('panel-2').innerHTML = card('Anúncio Instagram', d.instagram);
+
+  // Panel 3 — Criativo
+  const im = d.imagem;
+  document.getElementById('panel-3').innerHTML = `
+    ${card('Título da arte', im.titulo)}
+    ${card('Subtítulo', im.subtitulo)}
+    ${card('Destaque de rendimento', im.destaque)}
+    ${card('CTA do criativo', im.cta)}
+    <div class="out-card">
+      <div class="out-head"><span class="out-lbl">Especificações visuais</span></div>
+      <div class="out-txt">Estilo: <strong>${im.estilo}</strong>\nCores sugeridas: ${im.cores}</div>
+    </div>
+    ${card('Briefing de layout para designer', im.layout)}
+    ${img ? `<div class="out-card"><div class="out-head"><span class="out-lbl">Imagem do produto</span></div><img src="${img}" style="max-width:100%;border-radius:8px;margin-top:6px" onerror="this.parentElement.parentElement.style.display='none'"></div>` : ''}`;
+
+  // Panel 4 — Copy longa
+  document.getElementById('panel-4').innerHTML = card('Copy completa de vendas', d.copy_longa);
+
+  // Panel 5 — Landing Page
+  const lp = d.landing;
+  const htmlContent = gerarHTML(lp, img, whats);
+  _lpHtml = htmlContent;
+
+  document.getElementById('panel-5').innerHTML = `
+    ${card('Title SEO', lp.title_seo)}
+    ${card('Meta description', lp.meta)}
+    ${card('H1', lp.h1)}
+    <div class="out-card">
+      <div class="out-head"><span class="out-lbl">Preview da landing page</span></div>
+      <iframe id="lpframe" class="lp-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+    <button class="btn-dl" onclick="baixarHTML()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Baixar landing page (.html)
+    </button>`;
+
+  setTimeout(() => {
+    const fr = document.getElementById('lpframe');
+    if (fr) fr.srcdoc = htmlContent;
+  }, 150);
+}
+
+function gerarHTML(lp, img, whats) {
+  const tel = 'https://wa.me/' + whats + '?text=' + encodeURIComponent('Olá! Tenho interesse no produto. Pode me enviar mais informações?');
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<title>${nome}</title>
-<meta name="description" content="${nome} com alto rendimento e qualidade">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${lp.title_seo}</title>
+<meta name="description" content="${lp.meta}">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',Arial,sans-serif;color:#1A1A18;background:#f8f8f6}
+.topbar{background:#1A1A18;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.topbar-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff}
+.topbar-logo span{color:#1D9E75}
+.topbar-cta{font-size:13px;font-weight:500;color:#1A1A18;background:#1D9E75;padding:7px 16px;border-radius:99px;text-decoration:none}
+.hero{background:#1D9E75;padding:48px 24px;text-align:center;color:#fff}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(24px,5vw,40px);font-weight:800;line-height:1.15;letter-spacing:-0.02em;margin-bottom:12px}
+.hero p{font-size:16px;opacity:.9;max-width:480px;margin:0 auto 24px;line-height:1.6}
+.hero-cta{display:inline-block;background:#fff;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:14px 30px;border-radius:99px;text-decoration:none;transition:opacity .2s}
+.hero-cta:hover{opacity:.88}
+${img ? `.prod-img{width:100%;max-height:320px;object-fit:cover}` : ''}
+.sec{padding:40px 24px;max-width:720px;margin:0 auto}
+.sec-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:20px;color:#1A1A18}
+.sec-title span{color:#1D9E75}
+.beneficios{list-style:none;display:grid;gap:10px}
+.beneficios li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.5;color:#444}
+.beneficios li:before{content:"✓";background:#1D9E75;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.passos{display:grid;gap:14px}
+.passo{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px}
+.passo-num{background:#1D9E75;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;flex-shrink:0}
+.passo p{font-size:14px;color:#444;line-height:1.6}
+.tec-box{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:20px}
+.tec-box p{font-size:14px;color:#555;line-height:1.8}
+.cta-sec{background:#1A1A18;padding:56px 24px;text-align:center;color:#fff}
+.cta-sec h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px}
+.cta-sec p{font-size:15px;opacity:.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:#25D366;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;padding:16px 36px;border-radius:99px;text-decoration:none;transition:opacity .2s}
+.cta-btn:hover{opacity:.88}
+.divider{height:1px;background:rgba(0,0,0,0.06);margin:0}
+footer{text-align:center;padding:20px;font-size:12px;color:#999}
+</style>
 </head>
 <body>
-<h1>${nome}</h1>
-<img src="${imagem}" width="300">
-<p><strong>Rendimento:</strong> ${rendimento}</p>
-<p><strong>Benefícios:</strong> ${beneficios}</p>
-<p><strong>Como usar:</strong> ${uso}</p>
-<a href="#">Comprar pelo WhatsApp</a>
-</body>
-</html>
-`;
+<div class="topbar">
+  <div class="topbar-logo">Construção<span>+</span></div>
+  <a href="${tel}" class="topbar-cta">Falar no WhatsApp</a>
+</div>
+${img ? `<img class="prod-img" src="${img}" alt="${lp.h1}" onerror="this.style.display='none'">` : ''}
+<div class="hero">
+  <h1>${lp.h1}</h1>
+  <p>${lp.intro}</p>
+  <a href="${tel}" class="hero-cta">${lp.cta_texto}</a>
+</div>
+<div class="divider"></div>
+<div class="sec">
+  <h2 class="sec-title">Por que escolher este <span>produto?</span></h2>
+  <ul class="beneficios">${lp.beneficios.map(b => `<li>${b}</li>`).join('')}</ul>
+</div>
+<div class="divider"></div>
+<div class="sec">
+  <h2 class="sec-title">Como <span>usar</span></h2>
+  <div class="passos">${lp.como_usar.map((s, i) => `<div class="passo"><div class="passo-num">${i + 1}</div><p>${s}</p></div>`).join('')}</div>
+</div>
+<div class="divider"></div>
+<div class="sec">
+  <h2 class="sec-title">Informações <span>técnicas</span></h2>
+  <div class="tec-box"><p>${lp.tecnico}</p></div>
+</div>
+<div class="cta-sec">
+  <h2>Garanta o seu agora!</h2>
+  <p>Fale com nossa equipe e receba atendimento personalizado.</p>
+  <a href="${tel}" class="cta-btn">📲 ${lp.cta_texto}</a>
+</div>
+<footer>Dúvidas? Entre em contato pelo WhatsApp. · Todos os direitos reservados.</footer>
+</body></html>`;
+}
 
-document.getElementById('html').value = html;
+function baixarHTML() {
+  if (!_lpHtml) return;
+  const a = document.createElement('a');
+  a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(_lpHtml);
+  a.download = 'landing-page.html';
+  a.click();
+}
+
+function esc(s) {
+  return String(s).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+}
+
+function cp(id, texto) {
+  const txt = texto.replace(/\\n/g, '\n').replace(/\\`/g, '`');
+  navigator.clipboard.writeText(txt).catch(() => {});
+  const btn = document.getElementById(id);
+  btn.textContent = 'Copiado!';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 1600);
 }
 </script>
-
 </body>
 </html>
