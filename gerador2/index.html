@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Gerador de Anúncios</title>
+<style>
+body { font-family: Arial; padding:20px; background:#f5f5f5;}
+input, textarea, select { width:100%; margin:5px 0; padding:8px;}
+button { padding:10px; background:#007bff; color:white; border:none; cursor:pointer;}
+.box { background:white; padding:15px; margin-top:15px;}
+</style>
+</head>
+<body>
+
+<h2>Gerador de Anúncios</h2>
+
+<input id="nome" placeholder="Nome do produto">
+<select id="tipo">
+  <option value="tinta">Tinta</option>
+  <option value="massa">Massa</option>
+</select>
+
+<input id="unidade" placeholder="Litros ou Kg">
+<input id="rendimento" placeholder="Rendimento (ex: até 250m²)">
+<textarea id="beneficios" placeholder="Benefícios"></textarea>
+<textarea id="uso" placeholder="Como usar"></textarea>
+<input id="imagem" placeholder="URL da imagem">
+
+<button onclick="gerar()">GERAR</button>
+
+<div class="box">
+<h3>📱 WhatsApp / Instagram</h3>
+<textarea id="whats"></textarea>
+</div>
+
+<div class="box">
+<h3>🌐 Landing Page</h3>
+<textarea id="html"></textarea>
+</div>
+
+<script>
+function gerar() {
+let nome = document.getElementById('nome').value;
+let tipo = document.getElementById('tipo').value;
+let unidade = document.getElementById('unidade').value;
+let rendimento = document.getElementById('rendimento').value;
+let beneficios = document.getElementById('beneficios').value;
+let uso = document.getElementById('uso').value;
+let imagem = document.getElementById('imagem').value;
+
+let texto = `🔥 ${nome}\n\n✅ Alta qualidade\n📏 ${unidade}\n📊 ${rendimento}\n\n💡 Benefícios:\n${beneficios}\n\n🛠️ Como usar:\n${uso}\n\n👉 Chama no WhatsApp agora!`;
+
+document.getElementById('whats').value = texto;
+
+let html = `
+<!DOCTYPE html>
+<html>
+<head>
+<title>${nome}</title>
+<meta name="description" content="${nome} com alto rendimento e qualidade">
+</head>
+<body>
+<h1>${nome}</h1>
+<img src="${imagem}" width="300">
+<p><strong>Rendimento:</strong> ${rendimento}</p>
+<p><strong>Benefícios:</strong> ${beneficios}</p>
+<p><strong>Como usar:</strong> ${uso}</p>
+<a href="#">Comprar pelo WhatsApp</a>
+</body>
+</html>
+`;
+
+document.getElementById('html').value = html;
+}
+</script>
+
+</body>
+</html>
