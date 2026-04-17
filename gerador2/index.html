@@ -14,379 +14,210 @@
   --amber: #EF9F27;
   --surface: #F7F6F2;
   --card: #FFFFFF;
-  --border: rgba(0,0,0,0.08);
+  --border: rgba(0,0,0,0.09);
   --text: #1A1A18;
   --muted: #6B6B66;
-  --radius: 12px;
+  --radius: 14px;
   --radius-sm: 8px;
 }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);min-height:100vh}
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HEADER ── */
+header{background:var(--text);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:#fff;letter-spacing:-0.02em}
+.logo span{color:var(--green)}
+.header-right{display:flex;align-items:center;gap:10px}
+.api-status{font-size:11px;padding:4px 10px;border-radius:99px;font-weight:500;transition:all .3s}
+.api-status.ok{background:#E1F5EE;color:#0F6E56}
+.api-status.no{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6)}
+.config-btn{font-size:12px;padding:6px 13px;border:1px solid rgba(255,255,255,0.2);border-radius:99px;background:transparent;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.config-btn:hover{background:rgba(255,255,255,0.1)}
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--surface);
-  color: var(--text);
-  min-height: 100vh;
-}
+/* ── CONFIG DRAWER ── */
+.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;animation:fadeIn .2s}
+.drawer-overlay.open{display:flex;align-items:flex-start;justify-content:center;padding-top:80px}
+.drawer{background:var(--card);border-radius:var(--radius);padding:28px;width:100%;max-width:520px;border:1px solid var(--border);animation:slideDown .25s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.drawer h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px}
+.drawer-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.drawer-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.drawer-field label{font-size:12px;font-weight:500;color:var(--muted)}
+.drawer-field input{padding:10px 13px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
+.drawer-field input:focus{border-color:var(--green);background:#fff}
+.drawer-hint{font-size:11px;color:var(--muted);line-height:1.5;background:var(--surface);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:16px}
+.drawer-hint code{font-family:monospace;font-size:11px;background:rgba(0,0,0,0.06);padding:1px 4px;border-radius:3px}
+.drawer-actions{display:flex;gap:8px}
+.btn-save{flex:1;padding:10px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:var(--radius-sm);background:var(--green);color:#fff;cursor:pointer;transition:opacity .2s}
+.btn-save:hover{opacity:.88}
+.btn-cancel{padding:10px 18px;font-family:'DM Sans',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:var(--radius-sm);background:transparent;color:var(--muted);cursor:pointer;transition:background .15s}
+.btn-cancel:hover{background:var(--surface)}
 
-/* HEADER */
-header {
-  background: var(--text);
-  padding: 18px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.logo {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  color: #fff;
-  letter-spacing: -0.02em;
-}
-.logo span { color: var(--green); }
-.badge-header {
-  font-size: 11px;
-  background: var(--green);
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 99px;
-  font-weight: 500;
-}
+/* ── CONTAINER ── */
+.container{max-width:860px;margin:0 auto;padding:48px 20px 80px}
 
-/* LAYOUT */
-.container { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+/* ── HERO ── */
+.hero{text-align:center;margin-bottom:44px;animation:heroIn .6s ease both}
+@keyframes heroIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;background:var(--green-light);color:var(--green-dark);padding:5px 12px;border-radius:99px;margin-bottom:16px;letter-spacing:0.03em}
+.hero-tag-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:14px}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero p{font-size:15px;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.65}
 
-.hero { text-align: center; margin-bottom: 40px; }
-.hero h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: clamp(28px, 5vw, 44px);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-.hero h1 em { color: var(--green); font-style: normal; }
-.hero p { font-size: 15px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
+/* ── FORM CARD ── */
+.form-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:28px;margin-bottom:20px;animation:heroIn .6s .1s ease both}
+.sec-label{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+label{font-size:12px;font-weight:500;color:var(--muted)}
+input,select,textarea{padding:10px 13px;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);outline:none;transition:border-color .15s,background .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--green);background:#fff}
+textarea{resize:vertical;min-height:68px}
 
-/* FORM CARD */
-.form-card {
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 28px;
-  margin-bottom: 24px;
-}
-.form-section-title {
-  font-family: 'Syne', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-.field { display: flex; flex-direction: column; gap: 5px; }
-label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.01em;
-}
-input, select, textarea {
-  padding: 10px 13px;
-  font-size: 14px;
-  font-family: 'DM Sans', sans-serif;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text);
-  transition: border-color .15s, background .15s;
-  outline: none;
-  width: 100%;
-}
-input:focus, select:focus, textarea:focus {
-  border-color: var(--green);
-  background: #fff;
-}
-textarea { resize: vertical; min-height: 72px; }
+/* ── MAIN BUTTON ── */
+.btn-main{width:100%;padding:14px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;letter-spacing:0.01em;border:none;border-radius:var(--radius);background:var(--green);color:#fff;cursor:pointer;margin-top:8px;transition:background .2s,transform .1s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-main:hover{background:var(--green-dark)}
+.btn-main:active{transform:scale(.99)}
+.btn-main:disabled{opacity:.45;cursor:not-allowed}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* CTA BUTTON */
-.btn-main {
-  width: 100%;
-  padding: 14px;
-  font-family: 'Syne', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--green);
-  color: #fff;
-  cursor: pointer;
-  margin-top: 6px;
-  transition: background .2s, transform .1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.btn-main:hover { background: var(--green-dark); }
-.btn-main:active { transform: scale(0.99); }
-.btn-main:disabled { opacity: 0.5; cursor: not-allowed; }
+/* ── ALERT ── */
+.alert{display:none;margin-top:10px;padding:12px 14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.5}
+.alert.error{background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;display:block}
+.alert.warn{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A;display:block}
 
-.spinner {
-  width: 16px; height: 16px;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
+/* ── RESULTS ── */
+#resultado{display:none;animation:heroIn .35s ease both}
+.result-bar{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.result-bar h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.02em}
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s ease infinite}
 
-.err { color: #D85A30; font-size: 13px; margin-top: 8px; text-align: center; }
+/* ── TABS ── */
+.tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:6px}
+.tab{padding:7px 13px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;border-radius:var(--radius-sm);cursor:pointer;background:transparent;color:var(--muted);transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--text);background:var(--surface)}
+.tab.active{background:var(--green);color:#fff}
 
-/* RESULTS */
-#resultado { display: none; margin-top: 32px; }
+.panel{display:none}
+.panel.active{display:block;animation:fadeIn .22s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
 
-.result-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.result-header h2 {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.result-header .dot {
-  width: 8px; height: 8px;
-  background: var(--green);
-  border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+/* ── OUTPUT CARDS ── */
+.out-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px}
+.out-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.out-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.copy-btn{font-size:12px;padding:4px 12px;border:1px solid var(--border);border-radius:99px;background:transparent;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.copy-btn:hover{background:var(--green-light);color:var(--green-dark);border-color:var(--green)}
+.copy-btn.copied{background:var(--green);color:#fff;border-color:var(--green)}
+.out-txt{font-size:14px;line-height:1.72;color:var(--text);white-space:pre-wrap}
 
-/* TABS */
-.tabs {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 6px;
-}
-.tab {
-  padding: 7px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  font-family: 'DM Sans', sans-serif;
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  background: transparent;
-  color: var(--muted);
-  transition: all .15s;
-  white-space: nowrap;
-}
-.tab:hover { color: var(--text); background: var(--surface); }
-.tab.active { background: var(--green); color: #fff; }
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px}
+.stat{background:var(--surface);border-radius:var(--radius-sm);padding:13px 15px;border:1px solid var(--border)}
+.stat-label{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:4px}
+.stat-value{font-size:17px;font-weight:700;font-family:'Syne',sans-serif;color:var(--text)}
 
-.panel { display: none; }
-.panel.active { display: block; animation: fadeIn .25s ease; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+/* ── TAGS ── */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.tag{font-size:12px;padding:4px 10px;border-radius:99px;background:var(--green-light);color:var(--green-dark);font-weight:500}
 
-/* OUTPUT CARDS */
-.out-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  margin-bottom: 12px;
-}
-.out-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-.out-lbl {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: var(--muted);
-}
-.copy-btn {
-  font-size: 12px;
-  padding: 4px 11px;
-  border: 1px solid var(--border);
-  border-radius: 99px;
-  background: transparent;
-  color: var(--muted);
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  transition: all .15s;
-}
-.copy-btn:hover { background: var(--green-light); color: var(--green-dark); border-color: var(--green); }
-.copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+/* ── LANDING PREVIEW ── */
+.lp-iframe{width:100%;border:none;border-radius:var(--radius);border:1px solid var(--border);height:560px;margin-top:10px;background:#fff}
+.btn-dl{width:100%;padding:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;border:1.5px solid var(--green);border-radius:var(--radius);background:transparent;color:var(--green);cursor:pointer;margin-top:10px;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-dl:hover{background:var(--green);color:#fff}
+.btn-wa{width:100%;padding:12px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;border:none;border-radius:var(--radius);background:#25D366;color:#fff;cursor:pointer;margin-top:8px;transition:opacity .15s}
+.btn-wa:hover{opacity:.88}
 
-.out-txt {
-  font-size: 14px;
-  line-height: 1.7;
-  color: var(--text);
-  white-space: pre-wrap;
-}
+/* ── FOOTER ── */
+footer{text-align:center;padding:32px 20px;font-size:12px;color:var(--muted)}
 
-/* BADGES */
-.tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 99px;
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-weight: 500;
-}
-
-/* STATS GRID */
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 12px; }
-.stat {
-  background: var(--surface);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-}
-.stat-label { font-size: 11px; color: var(--muted); font-weight: 500; margin-bottom: 4px; }
-.stat-value { font-size: 17px; font-weight: 700; font-family: 'Syne', sans-serif; color: var(--text); }
-
-/* LAYOUT PREVIEW */
-.layout-preview {
-  background: var(--surface);
-  border: 1.5px dashed rgba(0,0,0,0.12);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-top: 8px;
-}
-.lp-zone {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-}
-.lp-zone.title-zone { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: var(--text); }
-.lp-zone.img-zone { background: #f0f0ec; min-height: 100px; display: flex; align-items: center; justify-content: center; }
-.lp-zone.cta-zone { background: var(--green); color: #fff; font-weight: 600; }
-
-/* LANDING PAGE iframe */
-.lp-iframe {
-  width: 100%;
-  border: none;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  height: 560px;
-  margin-top: 10px;
-}
-
-/* DOWNLOAD BUTTON */
-.btn-dl {
-  width: 100%;
-  padding: 12px;
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  border: 1.5px solid var(--green);
-  border-radius: var(--radius);
-  background: transparent;
-  color: var(--green);
-  cursor: pointer;
-  margin-top: 10px;
-  transition: all .15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-dl:hover { background: var(--green); color: #fff; }
-
-/* WA BUTTON */
-.btn-wa {
-  width: 100%;
-  padding: 12px;
-  font-family: 'Syne', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  border: none;
-  border-radius: var(--radius);
-  background: #25D366;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: opacity .15s;
-}
-.btn-wa:hover { opacity: .88; }
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 32px 20px;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .grid2, .grid3 { grid-template-columns: 1fr; }
-  header { padding: 14px 16px; }
-  .form-card { padding: 18px 16px; }
-  .container { padding: 24px 14px 60px; }
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  header{padding:14px 16px}
+  .form-card{padding:18px 14px}
+  .container{padding:28px 12px 60px}
+  .drawer{margin:0 12px}
 }
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header>
   <div class="logo">Construção<span>+</span>Marketing</div>
-  <span class="badge-header">IA integrada</span>
+  <div class="header-right">
+    <span class="api-status no" id="apiStatus">Sem configuração</span>
+    <button class="config-btn" onclick="abrirDrawer()">⚙ Configurar API</button>
+  </div>
 </header>
 
+<!-- CONFIG DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="fecharDrawerFora(event)">
+  <div class="drawer">
+    <h3>Configuração da API</h3>
+    <p class="drawer-desc">Para funcionar fora do Claude.ai, você precisa de um proxy (Cloudflare Worker) e sua chave da Anthropic.</p>
+
+    <div class="drawer-field">
+      <label>URL do seu Cloudflare Worker *</label>
+      <input type="text" id="proxyUrl" placeholder="https://meu-proxy.seuusuario.workers.dev" />
+    </div>
+    <div class="drawer-field">
+      <label>Sua chave de API da Anthropic *</label>
+      <input type="password" id="apiKey" placeholder="sk-ant-api03-..." />
+    </div>
+
+    <div class="drawer-hint">
+      <strong>Como criar o proxy gratuito:</strong><br>
+      1. Acesse <code>workers.cloudflare.com</code> e crie uma conta<br>
+      2. Clique em <code>Create Worker</code> → cole o código do Worker (veja abaixo)<br>
+      3. Clique em <code>Deploy</code> e copie a URL gerada<br><br>
+      <strong>Código do Worker (copie e cole no Cloudflare):</strong>
+      <button onclick="copiarWorker()" style="font-size:11px;padding:3px 8px;border:1px solid rgba(0,0,0,0.15);border-radius:4px;background:transparent;cursor:pointer;margin-left:6px">Copiar código</button>
+    </div>
+
+    <div class="drawer-actions">
+      <button class="btn-save" onclick="salvarConfig()">Salvar e fechar</button>
+      <button class="btn-cancel" onclick="fecharDrawer()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
 <div class="container">
 
   <div class="hero">
-    <h1>Seu produto. <em>Vendas automáticas.</em></h1>
-    <p>Preencha os dados e gere em segundos anúncios para WhatsApp, Instagram, landing page e muito mais.</p>
+    <div class="hero-tag"><span class="hero-tag-dot"></span>IA integrada</div>
+    <h1>Seu produto.<br><em>Vendas automáticas.</em></h1>
+    <p>Preencha os dados e gere anúncios para WhatsApp, Instagram, landing page e mais em segundos.</p>
   </div>
 
+  <!-- FORM -->
   <div class="form-card">
-    <div class="form-section-title">Produto</div>
-    <div class="field" style="margin-bottom:14px">
+    <div class="sec-label">Produto</div>
+    <div class="field">
       <label>Nome ou descrição do produto *</label>
-      <input type="text" id="produto" placeholder="Ex: Tinta acrílica premium branco neve 18L" />
+      <input type="text" id="produto" placeholder="Ex: Massa corrida PVA premium 25kg" />
     </div>
-    <div class="grid2" style="margin-bottom:14px">
+    <div class="grid2">
       <div class="field">
         <label>URL da imagem (opcional)</label>
         <input type="text" id="img_url" placeholder="https://..." />
       </div>
       <div class="field">
         <label>Preço (opcional)</label>
-        <input type="text" id="preco" placeholder="R$ 189,90" />
+        <input type="text" id="preco" placeholder="R$ 89,90" />
       </div>
     </div>
-    <div class="grid2" style="margin-bottom:14px">
+    <div class="grid2">
       <div class="field">
-        <label>WhatsApp (com código do país)</label>
+        <label>WhatsApp (com DDI + DDD)</label>
         <input type="text" id="whats_num" placeholder="5511999999999" />
       </div>
       <div class="field">
@@ -400,7 +231,7 @@ footer {
       </div>
     </div>
 
-    <div class="form-section-title" style="margin-top:20px">Extras (opcional — preenchimento automático se vazio)</div>
+    <div class="sec-label" style="margin-top:20px">Dados extras (opcional — IA completa automaticamente)</div>
     <div class="grid3">
       <div class="field">
         <label>Categoria</label>
@@ -415,26 +246,25 @@ footer {
         <input type="text" id="rendimento" placeholder="Até 400 m²" />
       </div>
     </div>
-    <div class="field" style="margin-top:14px">
+    <div class="field">
       <label>Diferenciais do produto</label>
       <textarea id="diferenciais" placeholder="Secagem rápida, lavável, alta cobertura, sem cheiro…"></textarea>
     </div>
 
     <button class="btn-main" id="btn" onclick="gerar()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Gerar sistema completo de marketing
     </button>
-    <div id="erro" class="err"></div>
+    <div class="alert" id="alerta"></div>
   </div>
 
   <!-- RESULTADO -->
   <div id="resultado">
-    <div class="result-header">
-      <div class="dot"></div>
+    <div class="result-bar">
+      <div class="live-dot"></div>
       <h2>Conteúdo gerado</h2>
     </div>
-
-    <div class="tabs" id="tabs">
+    <div class="tabs">
       <button class="tab active" onclick="switchTab(0)">📊 Pesquisa</button>
       <button class="tab" onclick="switchTab(1)">💬 WhatsApp</button>
       <button class="tab" onclick="switchTab(2)">📸 Instagram</button>
@@ -442,7 +272,6 @@ footer {
       <button class="tab" onclick="switchTab(4)">✍️ Copy longa</button>
       <button class="tab" onclick="switchTab(5)">🌐 Landing page</button>
     </div>
-
     <div id="panel-0" class="panel active"></div>
     <div id="panel-1" class="panel"></div>
     <div id="panel-2" class="panel"></div>
@@ -453,20 +282,114 @@ footer {
 
 </div>
 
-<footer>Feito com IA · Construção+Marketing · Nenhum dado é armazenado</footer>
+<footer>Construção+Marketing · Powered by Claude AI · Nenhum dado é armazenado</footer>
 
 <script>
-let _lpHtml = '';
+/* ── WORKER CODE (para copiar) ── */
+const WORKER_CODE = `export default {
+  async fetch(request) {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, x-api-key, anthropic-version',
+        }
+      });
+    }
+    const body = await request.json();
+    const apiKey = request.headers.get('x-api-key');
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    return new Response(JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      }
+    });
+  }
+};`;
 
+/* ── CONFIG ── */
+let CFG = { proxyUrl: '', apiKey: '' };
+
+function carregarConfig() {
+  try {
+    const s = localStorage.getItem('mkt_cfg');
+    if (s) CFG = JSON.parse(s);
+  } catch(e) {}
+  atualizarStatus();
+  if (CFG.proxyUrl) document.getElementById('proxyUrl').value = CFG.proxyUrl;
+  if (CFG.apiKey) document.getElementById('apiKey').value = CFG.apiKey;
+}
+
+function salvarConfig() {
+  CFG.proxyUrl = document.getElementById('proxyUrl').value.trim();
+  CFG.apiKey = document.getElementById('apiKey').value.trim();
+  try { localStorage.setItem('mkt_cfg', JSON.stringify(CFG)); } catch(e) {}
+  atualizarStatus();
+  fecharDrawer();
+}
+
+function atualizarStatus() {
+  const el = document.getElementById('apiStatus');
+  if (CFG.proxyUrl && CFG.apiKey) {
+    el.textContent = 'API configurada';
+    el.className = 'api-status ok';
+  } else {
+    el.textContent = 'Sem configuração';
+    el.className = 'api-status no';
+  }
+}
+
+function abrirDrawer() {
+  document.getElementById('drawerOverlay').classList.add('open');
+  if (CFG.proxyUrl) document.getElementById('proxyUrl').value = CFG.proxyUrl;
+  if (CFG.apiKey) document.getElementById('apiKey').value = CFG.apiKey;
+}
+function fecharDrawer() { document.getElementById('drawerOverlay').classList.remove('open'); }
+function fecharDrawerFora(e) { if (e.target === document.getElementById('drawerOverlay')) fecharDrawer(); }
+
+function copiarWorker() {
+  navigator.clipboard.writeText(WORKER_CODE).catch(() => {});
+  event.target.textContent = 'Copiado!';
+  setTimeout(() => event.target.textContent = 'Copiar código', 1500);
+}
+
+/* ── TABS ── */
 function switchTab(i) {
   document.querySelectorAll('.tab').forEach((t, j) => t.classList.toggle('active', j === i));
   document.querySelectorAll('.panel').forEach((p, j) => p.classList.toggle('active', j === i));
 }
 
+/* ── ALERT ── */
+function showAlert(msg, tipo = 'error') {
+  const el = document.getElementById('alerta');
+  el.textContent = msg;
+  el.className = 'alert ' + tipo;
+}
+function hideAlert() { document.getElementById('alerta').className = 'alert'; }
+
+/* ── GERAR ── */
+let _lpHtml = '';
+
 async function gerar() {
+  hideAlert();
   const produto = document.getElementById('produto').value.trim();
-  if (!produto) { document.getElementById('erro').textContent = 'Informe o nome ou descrição do produto.'; return; }
-  document.getElementById('erro').textContent = '';
+  if (!produto) { showAlert('Informe o nome ou descrição do produto.'); return; }
+
+  if (!CFG.proxyUrl || !CFG.apiKey) {
+    showAlert('Configure a URL do proxy e a chave de API primeiro. Clique em "⚙ Configurar API" no topo.', 'warn');
+    return;
+  }
 
   const btn = document.getElementById('btn');
   btn.disabled = true;
@@ -483,7 +406,7 @@ async function gerar() {
   const diferenciais = document.getElementById('diferenciais').value.trim();
 
   const prompt = `Você é especialista em marketing digital, copywriting e SEO para e-commerce de materiais de construção no Brasil.
-Receba os dados abaixo e gere um sistema completo de marketing. Complete automaticamente qualquer dado faltante com conhecimento de mercado.
+Gere um sistema completo de marketing para o produto abaixo. Complete automaticamente qualquer dado faltante com conhecimento de mercado.
 
 PRODUTO: ${produto}
 CATEGORIA: ${categoria || 'identificar automaticamente'}
@@ -505,41 +428,53 @@ Responda APENAS em JSON válido, sem markdown, sem texto fora do JSON:
     "beneficios": ["string","string","string","string","string"],
     "diferenciais": ["string","string","string"]
   },
-  "whatsapp": "texto completo para whatsapp com emojis e cta (max 300 chars)",
-  "instagram": "texto completo para instagram com emojis, quebra de linhas e cta forte",
+  "whatsapp": "texto completo com emojis e cta (max 300 chars)",
+  "instagram": "texto para instagram com emojis, quebra de linhas e cta forte",
   "imagem": {
-    "titulo": "até 6 palavras fortes e impactantes",
+    "titulo": "até 6 palavras fortes",
     "subtitulo": "frase de apoio persuasiva",
     "destaque": "ex: Rende até 400 m²",
     "cta": "texto curto do botão",
-    "cores": "sugestão de paleta de cores ex: laranja e branco",
+    "cores": "sugestão de paleta ex: laranja e branco",
     "estilo": "promoção/premium/econômico",
-    "layout": "descrição detalhada do layout visual para o designer"
+    "layout": "descrição detalhada do layout para o designer"
   },
-  "copy_longa": "copy completa de vendas com intro, problema, solução, benefícios, prova social, urgência e cta",
+  "copy_longa": "copy completa: intro, problema, solução, benefícios, prova, urgência e cta",
   "landing": {
     "title_seo": "title tag seo otimizado",
     "meta": "meta description otimizada",
-    "h1": "h1 principal otimizado para seo",
+    "h1": "h1 principal otimizado",
     "intro": "parágrafo introdutório persuasivo",
     "beneficios": ["string","string","string","string","string"],
     "como_usar": ["passo 1 completo","passo 2 completo","passo 3 completo"],
-    "tecnico": "ficha técnica completa: rendimento, diluição, aplicação, secagem",
+    "tecnico": "ficha técnica: rendimento, diluição, aplicação, secagem",
     "cta_texto": "texto do botão whatsapp"
   }
 }`;
 
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch(CFG.proxyUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CFG.apiKey,
+        'anthropic-version': '2023-06-01',
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 2800,
         messages: [{ role: 'user', content: prompt }]
       })
     });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || 'Erro ' + res.status);
+    }
+
     const data = await res.json();
+    if (data.error) throw new Error(data.error.message || 'Erro da API');
+
     const raw = data.content.map(b => b.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
     const d = JSON.parse(clean);
@@ -547,29 +482,30 @@ Responda APENAS em JSON válido, sem markdown, sem texto fora do JSON:
     document.getElementById('resultado').style.display = 'block';
     document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (e) {
-    document.getElementById('erro').textContent = 'Erro ao gerar conteúdo. Verifique sua conexão e tente novamente.';
+    showAlert('Erro: ' + (e.message || 'Verifique a URL do proxy e a chave de API.'));
     console.error(e);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> Gerar sistema completo de marketing';
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Gerar sistema completo de marketing';
   }
 }
 
+/* ── RENDER ── */
 function card(label, text) {
-  const id = 'c' + Math.random().toString(36).slice(2);
+  const id = 'btn_' + Math.random().toString(36).slice(2, 8);
+  const safe = esc(text);
   return `<div class="out-card">
     <div class="out-head">
       <span class="out-lbl">${label}</span>
-      <button class="copy-btn" id="${id}" onclick="cp('${id}', \`${esc(text)}\`)">Copiar</button>
+      <button class="copy-btn" id="${id}" onclick="cp('${id}','${safe}')">Copiar</button>
     </div>
-    <div class="out-txt">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    <div class="out-txt">${text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
   </div>`;
 }
 
 function renderAll(d, img, whats) {
   const p = d.pesquisa;
 
-  // Panel 0 — Pesquisa
   document.getElementById('panel-0').innerHTML = `
     <div class="stats">
       <div class="stat"><div class="stat-label">Categoria</div><div class="stat-value">${p.categoria}</div></div>
@@ -578,49 +514,43 @@ function renderAll(d, img, whats) {
       <div class="stat"><div class="stat-label">Superfície</div><div class="stat-value" style="font-size:13px">${p.superficie}</div></div>
     </div>
     <div class="out-card">
-      <div class="out-head"><span class="out-lbl">Benefícios identificados</span></div>
+      <div class="out-head"><span class="out-lbl">Benefícios</span></div>
       <div class="out-txt">${p.beneficios.map(b => '• ' + b).join('\n')}</div>
     </div>
     <div class="out-card">
-      <div class="out-head"><span class="out-lbl">Diferenciais de mercado</span></div>
+      <div class="out-head"><span class="out-lbl">Diferenciais</span></div>
       <div class="tags">${p.diferenciais.map(b => `<span class="tag">${b}</span>`).join('')}</div>
     </div>`;
 
-  // Panel 1 — WhatsApp
   const waUrl = 'https://wa.me/' + whats + '?text=' + encodeURIComponent(d.whatsapp);
-  document.getElementById('panel-1').innerHTML = card('Anúncio WhatsApp', d.whatsapp) +
+  document.getElementById('panel-1').innerHTML =
+    card('Anúncio WhatsApp', d.whatsapp) +
     `<button class="btn-wa" onclick="window.open('${waUrl}','_blank')">Abrir no WhatsApp Web</button>`;
 
-  // Panel 2 — Instagram
   document.getElementById('panel-2').innerHTML = card('Anúncio Instagram', d.instagram);
 
-  // Panel 3 — Criativo
   const im = d.imagem;
-  document.getElementById('panel-3').innerHTML = `
-    ${card('Título da arte', im.titulo)}
-    ${card('Subtítulo', im.subtitulo)}
-    ${card('Destaque de rendimento', im.destaque)}
-    ${card('CTA do criativo', im.cta)}
-    <div class="out-card">
-      <div class="out-head"><span class="out-lbl">Especificações visuais</span></div>
-      <div class="out-txt">Estilo: <strong>${im.estilo}</strong>\nCores sugeridas: ${im.cores}</div>
-    </div>
-    ${card('Briefing de layout para designer', im.layout)}
-    ${img ? `<div class="out-card"><div class="out-head"><span class="out-lbl">Imagem do produto</span></div><img src="${img}" style="max-width:100%;border-radius:8px;margin-top:6px" onerror="this.parentElement.parentElement.style.display='none'"></div>` : ''}`;
+  document.getElementById('panel-3').innerHTML =
+    card('Título da arte', im.titulo) +
+    card('Subtítulo', im.subtitulo) +
+    card('Destaque de rendimento', im.destaque) +
+    card('CTA do criativo', im.cta) +
+    `<div class="out-card"><div class="out-head"><span class="out-lbl">Especificações visuais</span></div>
+    <div class="out-txt">Estilo: <strong>${im.estilo}</strong>\nCores: ${im.cores}</div></div>` +
+    card('Briefing de layout para designer', im.layout) +
+    (img ? `<div class="out-card"><div class="out-head"><span class="out-lbl">Imagem fornecida</span></div>
+    <img src="${img}" style="max-width:100%;border-radius:8px;margin-top:6px" onerror="this.parentElement.parentElement.style.display='none'"></div>` : '');
 
-  // Panel 4 — Copy longa
   document.getElementById('panel-4').innerHTML = card('Copy completa de vendas', d.copy_longa);
 
-  // Panel 5 — Landing Page
   const lp = d.landing;
-  const htmlContent = gerarHTML(lp, img, whats);
-  _lpHtml = htmlContent;
+  _lpHtml = gerarHTML(lp, img, whats);
 
-  document.getElementById('panel-5').innerHTML = `
-    ${card('Title SEO', lp.title_seo)}
-    ${card('Meta description', lp.meta)}
-    ${card('H1', lp.h1)}
-    <div class="out-card">
+  document.getElementById('panel-5').innerHTML =
+    card('Title SEO', lp.title_seo) +
+    card('Meta description', lp.meta) +
+    card('H1', lp.h1) +
+    `<div class="out-card">
       <div class="out-head"><span class="out-lbl">Preview da landing page</span></div>
       <iframe id="lpframe" class="lp-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
     </div>
@@ -631,12 +561,13 @@ function renderAll(d, img, whats) {
 
   setTimeout(() => {
     const fr = document.getElementById('lpframe');
-    if (fr) fr.srcdoc = htmlContent;
+    if (fr) fr.srcdoc = _lpHtml;
   }, 150);
 }
 
+/* ── LANDING PAGE HTML ── */
 function gerarHTML(lp, img, whats) {
-  const tel = 'https://wa.me/' + whats + '?text=' + encodeURIComponent('Olá! Tenho interesse no produto. Pode me enviar mais informações?');
+  const tel = 'https://wa.me/' + whats + '?text=' + encodeURIComponent('Olá! Vi o produto e quero mais informações.');
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -652,30 +583,27 @@ body{font-family:'DM Sans',Arial,sans-serif;color:#1A1A18;background:#f8f8f6}
 .topbar-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff}
 .topbar-logo span{color:#1D9E75}
 .topbar-cta{font-size:13px;font-weight:500;color:#1A1A18;background:#1D9E75;padding:7px 16px;border-radius:99px;text-decoration:none}
-.hero{background:#1D9E75;padding:48px 24px;text-align:center;color:#fff}
-.hero h1{font-family:'Syne',sans-serif;font-size:clamp(24px,5vw,40px);font-weight:800;line-height:1.15;letter-spacing:-0.02em;margin-bottom:12px}
-.hero p{font-size:16px;opacity:.9;max-width:480px;margin:0 auto 24px;line-height:1.6}
-.hero-cta{display:inline-block;background:#fff;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:14px 30px;border-radius:99px;text-decoration:none;transition:opacity .2s}
-.hero-cta:hover{opacity:.88}
+.hero{background:#1D9E75;padding:52px 24px;text-align:center;color:#fff}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(24px,5vw,40px);font-weight:800;line-height:1.12;letter-spacing:-0.02em;margin-bottom:14px}
+.hero p{font-size:16px;opacity:.92;max-width:480px;margin:0 auto 26px;line-height:1.6}
+.hero-cta{display:inline-block;background:#fff;color:#1D9E75;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;padding:14px 32px;border-radius:99px;text-decoration:none}
 ${img ? `.prod-img{width:100%;max-height:320px;object-fit:cover}` : ''}
-.sec{padding:40px 24px;max-width:720px;margin:0 auto}
-.sec-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:20px;color:#1A1A18}
-.sec-title span{color:#1D9E75}
+.sec{padding:44px 24px;max-width:720px;margin:0 auto}
+.sec-t{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:20px}
+.sec-t span{color:#1D9E75}
 .beneficios{list-style:none;display:grid;gap:10px}
-.beneficios li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.5;color:#444}
-.beneficios li:before{content:"✓";background:#1D9E75;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
-.passos{display:grid;gap:14px}
+.beneficios li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.55;color:#444}
+.beneficios li::before{content:"✓";background:#1D9E75;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px}
+.passos{display:grid;gap:12px}
 .passo{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:16px}
-.passo-num{background:#1D9E75;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;flex-shrink:0}
-.passo p{font-size:14px;color:#444;line-height:1.6}
-.tec-box{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:20px}
-.tec-box p{font-size:14px;color:#555;line-height:1.8}
-.cta-sec{background:#1A1A18;padding:56px 24px;text-align:center;color:#fff}
+.passo-n{background:#1D9E75;color:#fff;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:14px;flex-shrink:0}
+.passo p{font-size:14px;color:#555;line-height:1.6}
+.tec{background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:12px;padding:20px;font-size:14px;color:#555;line-height:1.8}
+.cta-sec{background:#1A1A18;padding:60px 24px;text-align:center;color:#fff}
 .cta-sec h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.02em;margin-bottom:10px}
-.cta-sec p{font-size:15px;opacity:.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
-.cta-btn{display:inline-block;background:#25D366;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;padding:16px 36px;border-radius:99px;text-decoration:none;transition:opacity .2s}
-.cta-btn:hover{opacity:.88}
-.divider{height:1px;background:rgba(0,0,0,0.06);margin:0}
+.cta-sec p{font-size:15px;opacity:.65;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.cta-btn{display:inline-block;background:#25D366;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:16px;padding:16px 36px;border-radius:99px;text-decoration:none}
+.div{height:1px;background:rgba(0,0,0,0.06)}
 footer{text-align:center;padding:20px;font-size:12px;color:#999}
 </style>
 </head>
@@ -690,30 +618,31 @@ ${img ? `<img class="prod-img" src="${img}" alt="${lp.h1}" onerror="this.style.d
   <p>${lp.intro}</p>
   <a href="${tel}" class="hero-cta">${lp.cta_texto}</a>
 </div>
-<div class="divider"></div>
+<div class="div"></div>
 <div class="sec">
-  <h2 class="sec-title">Por que escolher este <span>produto?</span></h2>
+  <h2 class="sec-t">Por que escolher este <span>produto?</span></h2>
   <ul class="beneficios">${lp.beneficios.map(b => `<li>${b}</li>`).join('')}</ul>
 </div>
-<div class="divider"></div>
+<div class="div"></div>
 <div class="sec">
-  <h2 class="sec-title">Como <span>usar</span></h2>
-  <div class="passos">${lp.como_usar.map((s, i) => `<div class="passo"><div class="passo-num">${i + 1}</div><p>${s}</p></div>`).join('')}</div>
+  <h2 class="sec-t">Como <span>usar</span></h2>
+  <div class="passos">${lp.como_usar.map((s, i) => `<div class="passo"><div class="passo-n">${i+1}</div><p>${s}</p></div>`).join('')}</div>
 </div>
-<div class="divider"></div>
+<div class="div"></div>
 <div class="sec">
-  <h2 class="sec-title">Informações <span>técnicas</span></h2>
-  <div class="tec-box"><p>${lp.tecnico}</p></div>
+  <h2 class="sec-t">Informações <span>técnicas</span></h2>
+  <div class="tec">${lp.tecnico}</div>
 </div>
 <div class="cta-sec">
   <h2>Garanta o seu agora!</h2>
   <p>Fale com nossa equipe e receba atendimento personalizado.</p>
   <a href="${tel}" class="cta-btn">📲 ${lp.cta_texto}</a>
 </div>
-<footer>Dúvidas? Entre em contato pelo WhatsApp. · Todos os direitos reservados.</footer>
+<footer>Dúvidas? Entre em contato pelo WhatsApp.</footer>
 </body></html>`;
 }
 
+/* ── UTILS ── */
 function baixarHTML() {
   if (!_lpHtml) return;
   const a = document.createElement('a');
@@ -723,17 +652,29 @@ function baixarHTML() {
 }
 
 function esc(s) {
-  return String(s).replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  return String(s)
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$/g, '\\$')
+    .replace(/'/g, "\\'")
+    .replace(/\n/g, '\\n');
 }
 
 function cp(id, texto) {
-  const txt = texto.replace(/\\n/g, '\n').replace(/\\`/g, '`');
+  const txt = texto
+    .replace(/\\n/g, '\n')
+    .replace(/\\'/g, "'")
+    .replace(/\\`/g, '`');
   navigator.clipboard.writeText(txt).catch(() => {});
   const btn = document.getElementById(id);
+  if (!btn) return;
   btn.textContent = 'Copiado!';
   btn.classList.add('copied');
   setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 1600);
 }
+
+/* ── INIT ── */
+carregarConfig();
 </script>
 </body>
 </html>
